@@ -6,8 +6,8 @@ import Link from 'next/link';
 import Date from '../components/date';
 
 //process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-import {fetchAPI} from '../lib/datocms'
-import { request } from "../lib/datocms";
+// import {fetchAPI} from '../lib/datocms'
+import { fetchAPI } from "../lib/datocms";
 const HOMEPAGE_QUERY = `{
   allPosts{
     title,
@@ -19,17 +19,6 @@ const HOMEPAGE_QUERY = `{
   }
 }`;
 
-
-export async function getStaticProps() {
- 
-  const data = await request({
-    query: fetchAPI(HOMEPAGE_QUERY),
-    variables: { limit: 10 }
-  });
-  return {
-    props: { data }
-  };
-}
  
 export default function Home({ data  }) {
   return <div>{JSON.stringify(data, null, 2)}</div>;
@@ -68,4 +57,16 @@ export default function Home({ data  }) {
   //     </section>
   //   </Layout>
   // );
+}
+
+export async function getStaticProps() {
+  const data = await fetchAPI(HOMEPAGE_QUERY)
+  console.log(data)
+  
+  return {
+    props: { 
+      data: data 
+    }
+  };
+
 }
