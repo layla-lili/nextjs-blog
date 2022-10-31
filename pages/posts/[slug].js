@@ -3,7 +3,8 @@ import Head from "next/head";
 import Date from '../../components/date';
 import utilStyles from '../../styles/utils.module.css'; 
 import { fetchAPI, getPosts } from "../../lib/datocms";
-
+import { StructuredText } from "react-datocms";
+import { renderRule, isHeading } from 'datocms-structured-text-utils';
 
 export default function Post({ blog }) {
   
@@ -17,7 +18,19 @@ export default function Post({ blog }) {
         <div className={utilStyles.lightText}>
           <Date dateString={blog.published} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: blog.body.value }} />
+        {/* <div dangerouslySetInnerHTML={{ __html: JSON.stringify(blog.body.value,null,2)}} /> */}
+        <StructuredText data={blog.body.value}  
+        
+        customRules={[
+       renderRule(
+      isHeading,
+      ({ node, children, key }) => {
+        const Tag = `h${node.level}`;
+        return <Tag className="text-cyan-500" key={key}>{children}</Tag>;
+      },
+    ),
+  ]}/>
+      
       </article>
     </Layout>
   );

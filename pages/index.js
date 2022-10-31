@@ -30,7 +30,7 @@ export default function Home({ posts }) {
           {posts.map(({ id, published, title, slug }) =>(
           // {allPostsData.map(({ id, date, title }) => (
            <li className={utilStyles.listItem} key={id}>
-           <Link id={id} href={`/posts/${slug}`}>
+           <Link id={id} href={`/posts/${slug}`} legacyBehavior>
             {title}
            </Link>
            <br />
